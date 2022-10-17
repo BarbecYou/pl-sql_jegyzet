@@ -1,0 +1,116 @@
+// g betuvel kezdodik:
+
+select first_name, last_name from EMPLOYEES
+where last_name LIKE 'G%';
+
+// konzolra iras DUAL tablaval
+
+select 'Hello world from the database!' from DUAL;
+
+// join mukodese
+
+SELECT first_name, last_name, DEPARTMENTS.DEPARTMENT_NAME 
+FROM employees
+JOIN departments on DEPARTMENT.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+
+// kiiras a kliensre engedelyezes
+
+SET SERVEROUTPUT ON
+
+// anonym blokk
+ 
+BEGIN
+DBMS_OUTPUT.PUT_LINE('Hello world from PL/SQL');
+END;
+/
+
+
+// basic block template
+
+declare
+X number := 20;
+Y number := 22;
+Z number;
+begin 
+Z := X + Y;
+dbms_output.put_line('The answer is ' ||  Z);
+end;
+/
+
+// nested basic block template
+
+declare
+X number := 20;
+Y number := 22;
+Z number;
+begin 
+Z := X + y;
+  begin 
+  Z := 11;
+  end;
+dbms_output.put_line('The answer is ' ||  Z);
+end;
+/
+
+// faktoriális számítás -- for loop
+
+declare
+V_X NUMBER := 5;
+V_Y NUMBER := 1;
+begin 
+for i in 1 .. V_X LOOP 
+V_Y := V_Y * i;
+END LOOP;
+dbms_output.put_line('5 faktoriálisa: ' || V_Y);
+end;
+/
+
+// cursor hasznalata 
+
+declare
+cursor empCursor is select * from employees where first_name like 'G%';
+V_SUMSALARY NUMBER := 0;
+begin 
+for i in empCursor loop
+V_SUMSALARY := v_sumsalary + i.salary;
+end loop;
+dbms_output.put_line('G betûvel kezdõdõ emberek összfizetése: ' || V_sumsalary);
+end;
+/
+
+// procedure létrehozása
+
+create or replace procedure LIST_SALARIES
+is cursor emp_cursor is select first_name, last_name, salary from employees
+where first_name like 'G%';
+begin
+for i in emp_cursor loop
+dbms_output.put_line(i.first_name || ' ' || i.last_name || ' ' || i.salary);
+
+// function létrehozása
+
+create or REPLACE function FAKTOR (num number)
+return number is result Number := 1;
+begin
+for i in 1..num loop
+result := result * i;
+end loop;
+return result;
+end;
+/
+
+begin
+dbms_output.put_line(faktor(5));
+end;
+/
+end loop;
+end LIST_SALARIES;
+
+begin 
+list_salaries;
+end;
+/
+
+
+// 
+
